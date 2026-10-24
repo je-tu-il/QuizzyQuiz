@@ -1,8 +1,15 @@
-# QuizzyQuiz ⚡
+# QuizzyQuiz ⚡ — Réplique Libre & P2P de Kahoot
+
+[![Live Demo](https://img.shields.io/badge/Demo%20en%20Ligne-GitHub%20Pages-success?style=for-the-badge&logo=github)](https://je-tu-il.github.io/QuizzyQuiz/)
+[![Deploy to GitHub Pages](https://github.com/je-tu-il/QuizzyQuiz/actions/workflows/deploy.yml/badge.svg)](https://github.com/je-tu-il/QuizzyQuiz/actions/workflows/deploy.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 > **QuizzyQuiz** est une réplique libre, festive et décentralisée de Kahoot, fonctionnant entièrement en **Peer-to-Peer (WebRTC)** sans aucun serveur centralisé de jeu !
 
+🎮 **[👉 Jouer Immédiatement en Ligne (Aucune installation requise)](https://je-tu-il.github.io/QuizzyQuiz/)**
+
 ![QuizzyQuiz Banner](https://raw.githubusercontent.com/je-tu-il/QuizzyQuiz/main/src/assets/hero.png)
+
 
 ---
 
