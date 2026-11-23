@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { v4 as uuid } from 'uuid';
 import { Quiz, Question, QuestionType } from '../types';
 import { saveQuiz } from '../services/quizStorage';
 import { ShapeIcon, SHAPE_CONFIG } from './ShapeIcon';
@@ -14,7 +15,6 @@ import {
   CheckSquare,
   HelpCircle,
   X,
-  Upload,
   Sparkles,
   Loader2,
 } from 'lucide-react';
@@ -36,9 +36,9 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ initialQuiz }) => {
     initialQuiz?.description || 'Créé avec le créateur de quiz Kahout P2P'
   );
   const [questions, setQuestions] = useState<Question[]>(
-    initialQuiz?.questions || [
+    () => initialQuiz?.questions || [
       {
-        id: 'q_' + Date.now(),
+        id: 'q_' + uuid(),
         type: 'quiz',
         text: 'Quelle est la capitale de la France ?',
         timeLimit: 15,
@@ -95,7 +95,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ initialQuiz }) => {
 
   // Switch Question Type (Quiz 4-options vs Vrai / Faux 2-options)
   const handleSetQuestionType = (type: QuestionType) => {
-    if (!currentQ) return;
+    if (!currentQ || currentQ.type === type) return;
     let newAnswers = currentQ.answers;
 
     if (type === 'true_false') {
@@ -136,7 +136,8 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ initialQuiz }) => {
   // Image Upload handler
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file || !currentQ) return;
+    const questionId = currentQ.id;
 
     if (file.size > 2 * 1024 * 1024) {
       alert("L'image est trop lourde pour être partagée en P2P direct. Merci de choisir une image de moins de 2 Mo.");
@@ -147,7 +148,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ initialQuiz }) => {
     reader.onload = (event) => {
       const base64 = event.target?.result as string;
       setQuestions((prev) =>
-        prev.map((q, idx) => (idx === activeQuestionIndex ? { ...q, image: base64 } : q))
+        prev.map((q) => (q.id === questionId ? { ...q, image: base64 } : q))
       );
     };
     reader.readAsDataURL(file);
@@ -190,7 +191,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ initialQuiz }) => {
   // Add Question
   const handleAddQuestion = (type: QuestionType = 'quiz') => {
     const newQ: Question = {
-      id: 'q_' + Date.now(),
+      id: 'q_' + uuid(),
       type,
       text: type === 'quiz' ? 'Nouvelle question ?' : 'Cette affirmation est-elle vraie ou fausse ?',
       timeLimit: 15,
@@ -221,7 +222,7 @@ export const QuizEditor: React.FC<QuizEditorProps> = ({ initialQuiz }) => {
 
   const handleSave = () => {
     const finalQuiz: Quiz = {
-      id: initialQuiz?.id || 'quiz_' + Date.now(),
+      id: initialQuiz?.id || 'quiz_' + uuid(),
       title: title.trim() || 'Quiz sans titre',
       description: description.trim(),
       questions,
