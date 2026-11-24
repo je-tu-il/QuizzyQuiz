@@ -1,4 +1,4 @@
-import { Quiz } from '../types';
+import type { Quiz } from '../types';
 
 export const DEFAULT_QUIZZES: Quiz[] = [
   {
@@ -121,15 +121,26 @@ export function getStoredQuizzes(): Quiz[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_QUIZZES));
-      return DEFAULT_QUIZZES;
+      return structuredClone(DEFAULT_QUIZZES);
     }
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_QUIZZES;
+    const parsed: unknown = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.filter(isStoredQuiz) : structuredClone(DEFAULT_QUIZZES);
   } catch (e) {
     console.error('Failed to load stored quizzes', e);
-    return DEFAULT_QUIZZES;
+    return structuredClone(DEFAULT_QUIZZES);
   }
+}
+
+function isStoredQuiz(item: unknown): item is Quiz {
+  if (!item || typeof item !== 'object') return false;
+  const quiz = item as Partial<Quiz>;
+  return typeof quiz.id === 'string' && typeof quiz.title === 'string' &&
+    Array.isArray(quiz.questions) && quiz.questions.every(question =>
+      question && typeof question.id === 'string' && typeof question.text === 'string' &&
+      Array.isArray(question.answers) && question.answers.every(answer =>
+        answer && typeof answer.id === 'string' && typeof answer.text === 'string'
+      )
+    );
 }
 
 export function saveStoredQuizzes(quizzes: Quiz[]): void {
