@@ -28,3 +28,17 @@ body {
   box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
   transform: translateY(4px);
 }
+
+/* Quiz library */
+.quiz-library { background: #171326; }
+.quiz-library-header { background: radial-gradient(ellipse at 14% 0%, #593498, transparent 66%), #2b1c53; padding-block: clamp(24px, 5vw, 60px); }
+.quiz-library-header h1 { letter-spacing: -.055em; line-height: 1.02; }
+.quiz-library .quiz-card { background: #241c38; border-color: #4b3d66; box-shadow: none; }
+.quiz-library .quiz-card:hover { border-color: #aa8cf6; }
+.quiz-library .quiz-card h3 { overflow-wrap: anywhere; }
+.quiz-library .quiz-card-actions { flex-wrap: wrap; }
+.quiz-library :where(button, input):focus-visible { outline: 2px solid #f9ca63; outline-offset: 4px; }
+.quiz-import:focus-within { outline: 2px solid #f9ca63; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .quiz-library :where(button, .quiz-card) { transition: none; transform: none; }
+}

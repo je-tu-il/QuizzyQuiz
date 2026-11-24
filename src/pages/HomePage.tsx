@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Quiz } from '../types';
 import { getStoredQuizzes, deleteQuiz, saveQuiz } from '../services/quizStorage';
-import { Play, Plus, Trash2, Download, Upload, Sparkles, Smartphone, Monitor } from 'lucide-react';
+import { Play, Plus, Trash2, Download, Upload, Smartphone, Monitor } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 
 interface HomePageProps {
@@ -52,15 +52,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onHostQuiz }) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white flex flex-col justify-between">
+    <div className="quiz-library min-h-screen text-white flex flex-col justify-between">
       {/* Hero Header */}
-      <header className="bg-gradient-to-r from-[#46178f] via-[#5d20b6] to-[#1368ce] py-12 px-6 shadow-xl border-b border-white/10">
+      <header className="quiz-library-header px-6 border-b border-white/10">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 bg-amber-400 text-gray-950 font-black px-3 py-1 rounded-lg text-sm uppercase tracking-wider mb-3">
-              <Sparkles className="w-4 h-4 fill-current" />
-              100% P2P & Décentralisé
-            </div>
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white mb-2">
               KAHOUT!
             </h1>
@@ -95,32 +91,37 @@ export const HomePage: React.FC<HomePageProps> = ({ onHostQuiz }) => {
       <main className="max-w-5xl mx-auto w-full p-6 sm:p-10 flex-1">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-black">Vos Quiz disponibles</h2>
+            <h2 className="text-2xl sm:text-3xl font-black">Mes quiz</h2>
             <p className="text-gray-400 text-sm">
               Choisissez un quiz à projeter sur grand écran ou importez le vôtre en JSON.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <label className="cursor-pointer bg-slate-800 hover:bg-slate-700 text-white font-bold px-4 py-2.5 rounded-xl border border-slate-700 flex items-center gap-2 text-sm transition-colors">
+            <label className="quiz-import cursor-pointer bg-slate-800 hover:bg-slate-700 text-white font-bold px-4 py-2.5 rounded-xl border border-slate-700 flex items-center gap-2 text-sm transition-colors">
               <Upload className="w-4 h-4" />
               <span>Importer JSON</span>
               <input
                 type="file"
                 accept=".json"
                 onChange={handleImport}
-                className="hidden"
+                className="sr-only"
               />
             </label>
           </div>
         </div>
 
+        {quizzes.length === 0 && (
+          <p className="rounded-2xl border border-dashed border-violet-300/35 p-6 text-violet-100">
+            Créez un quiz ou importez un fichier JSON pour commencer.
+          </p>
+        )}
         {/* Quiz Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {quizzes.map((quiz) => (
             <div
               key={quiz.id}
-              className="bg-slate-800/80 hover:bg-slate-800 border border-slate-700 hover:border-purple-500 rounded-3xl p-6 transition-all duration-200 shadow-lg flex flex-col justify-between group"
+              className="quiz-card border rounded-2xl p-5 sm:p-6 transition-colors flex flex-col justify-between group"
             >
               <div>
                 <div className="flex items-start justify-between gap-4 mb-2">
@@ -136,13 +137,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onHostQuiz }) => {
                 </p>
               </div>
 
-              <div className="flex items-center justify-between gap-2 border-t border-slate-700/60 pt-4">
+              <div className="quiz-card-actions flex items-center justify-between gap-2 border-t border-slate-700/60 pt-4">
                 <button
                   onClick={() => onHostQuiz(quiz)}
                   className="bg-[#46178f] hover:bg-[#5d20b6] text-white font-black px-6 py-3 rounded-xl flex items-center gap-2 shadow-md hover:scale-105 active:scale-95 transition-all text-base"
                 >
                   <Monitor className="w-5 h-5 text-amber-400" />
-                  <span>Lancer l'écran (Host)</span>
+                  <span>Animer le quiz</span>
                 </button>
 
                 <div className="flex items-center gap-1">
