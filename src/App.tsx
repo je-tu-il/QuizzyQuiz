@@ -30,6 +30,7 @@ export function App() {
       />
       <Route path="/join" element={<JoinGamePage />} />
       <Route path="/create" element={<QuizEditor />} />
+      <Route path="*" element={<HomePage onHostQuiz={handleHostQuiz} />} />
     </Routes>
   );
 }

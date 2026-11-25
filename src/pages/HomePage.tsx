@@ -58,10 +58,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onHostQuiz }) => {
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white mb-2">
-              KAHOUT!
+              QuizzyQuiz!
             </h1>
             <p className="text-white/80 text-lg max-w-xl font-medium">
-              L'ambiance et la dynamique festive de Kahoot, sans aucun serveur centralisé.
+              L'ambiance et la dynamique des quiz interactifs en direct, sans aucun serveur centralisé.
               Parties hébergées en direct WebRTC depuis votre propre navigateur !
             </p>
           </div>
@@ -171,7 +171,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onHostQuiz }) => {
 
       {/* Footer */}
       <footer className="border-t border-slate-800 py-6 text-center text-gray-500 text-sm">
-        <p>Kahout P2P • Zéro serveur intermédiaire • Conçu pour des animations locales et ultra-rapides</p>
+        <p>QuizzyQuiz P2P • Zéro serveur intermédiaire • Conçu pour des animations locales et ultra-rapides</p>
       </footer>
     </div>
   );
